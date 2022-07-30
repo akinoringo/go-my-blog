@@ -3,6 +3,8 @@ package main
 import (
 	"net/http"
 
+	"go-my-blog/routes"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -14,12 +16,18 @@ func main() {
 	e.Logger.Fatal(e.Start(":8080"))
 }
 
+// echoの初期設定
+// インスタンスの生成
+// 各種middlewareの設定
 func createMux() *echo.Echo {
 	e := echo.New()
 
 	e.Use(middleware.Recover())
 	e.Use(middleware.Logger())
 	e.Use(middleware.Gzip())
+	e.Use(middleware.CORS())
+
+	routes.Init(e)
 
 	return e
 }
