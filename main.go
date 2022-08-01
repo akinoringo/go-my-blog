@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
+	"go-my-blog/databases"
 	"go-my-blog/routes"
 
 	"github.com/labstack/echo/v4"
@@ -13,6 +15,11 @@ var e = createMux()
 
 func main() {
 	e.GET("/test", testHandler)
+	_, err := databases.Connect()
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("database connected")
 	e.Logger.Fatal(e.Start(":8080"))
 }
 
