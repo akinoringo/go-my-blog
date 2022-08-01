@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"go-my-blog/databases"
+	"go-my-blog/middlewares"
 	"go-my-blog/routes"
 
 	"github.com/labstack/echo/v4"
@@ -33,6 +34,7 @@ func createMux() *echo.Echo {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Gzip())
 	e.Use(middleware.CORS())
+	e.Use(middlewares.DatabaseService())
 
 	routes.Init(e)
 
