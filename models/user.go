@@ -5,10 +5,11 @@ import (
 )
 
 type User struct {
-	ID        uint       `gorm:"primary_key"`
-	Name      string     `json:"username"`
-	Email     string     `json:"email"`
-	Password  string     `json:"password"`
+	ID        uint   `gorm:"primary_key"`
+	Name      string `json:"username"`
+	Email     string `json:"email"`
+	Password  string `json:"password"`
+	Articles  []Article
 	CreatedAt time.Time  `json:"-"`
 	UpdatedAt time.Time  `json:"-"`
 	DeletedAt *time.Time `sql:"index" json:"-"`
