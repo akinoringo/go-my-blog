@@ -4,12 +4,19 @@ import (
 	"go-my-blog/web/api"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func Init(e *echo.Echo) {
 	g := e.Group("/api")
 
 	{
-		g.GET("/test", api.Test())
+		g.POST("/signup", api.SignUp())
+		g.POST("/auth/login", api.Login())
+		g.GET("/auth/me", api.Me())
 	}
+
+	r := g.Group("/restricted")
+	r.Use(middleware.JWTWithConfig(api.Config))
+	r.GET("", api.Restricted())
 }
