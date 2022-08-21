@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"go-my-blog/web/api"
+	"go-my-blog/handler/api"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -19,4 +19,5 @@ func Init(e *echo.Echo) {
 	r := g.Group("/restricted")
 	r.Use(middleware.JWTWithConfig(api.Config))
 	r.GET("", api.Restricted())
+	r.POST("/article/create", api.Create())
 }

@@ -16,6 +16,7 @@ import (
 )
 
 type JwtCustomClaims struct {
+	ID   uint   `json:"id"`
 	Name string `json:"name"`
 	jwt.StandardClaims
 }
@@ -72,6 +73,7 @@ func Login() echo.HandlerFunc {
 		}
 
 		claims := &JwtCustomClaims{
+			user.ID,
 			user.Name,
 			jwt.StandardClaims{
 				ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
@@ -97,4 +99,11 @@ func Me() echo.HandlerFunc {
 			"user": "user",
 		})
 	}
+}
+
+func GetUserIDFromToken(c echo.Context) uint {
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(*JwtCustomClaims)
+	uid := claims.ID
+	return uid
 }
