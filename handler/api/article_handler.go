@@ -96,3 +96,19 @@ func DeleteArticle() echo.HandlerFunc {
 		return c.JSON(fasthttp.StatusOK, nil)
 	}
 }
+
+func GetArticles() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		dbs := c.Get("dbs").(*middlewares.DatabaseClient)
+		uid := GetUserIDFromToken(c)
+		user := new(models.User)
+		if dbs.DB.Table("users").Where(models.User{ID: uid}).First(&user).RecordNotFound() {
+			return echo.ErrNotFound
+		}
+		articles := []models.Article{}
+		if dbs.DB.Where("user_id = ?", uid).Find(&articles).RecordNotFound() {
+			return echo.ErrNotFound
+		}
+		return c.JSON(fasthttp.StatusOK, articles)
+	}
+}

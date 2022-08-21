@@ -19,6 +19,7 @@ func Init(e *echo.Echo) {
 	r := g.Group("/restricted")
 	r.Use(middleware.JWTWithConfig(api.Config))
 	r.GET("", api.Restricted())
+	r.GET("/articles", api.GetArticles())
 	r.GET("/article/:id", api.GetArticle())
 	r.POST("/article/:id", api.UpdateArticle())
 	r.DELETE("/article/:id", api.DeleteArticle())
