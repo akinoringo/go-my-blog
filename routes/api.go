@@ -20,5 +20,6 @@ func Init(e *echo.Echo) {
 	r.Use(middleware.JWTWithConfig(api.Config))
 	r.GET("", api.Restricted())
 	r.GET("/article/:id", api.GetArticle())
+	r.POST("/article/:id", api.UpdateArticle())
 	r.POST("/article/create", api.Create())
 }
