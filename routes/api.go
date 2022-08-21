@@ -21,5 +21,6 @@ func Init(e *echo.Echo) {
 	r.GET("", api.Restricted())
 	r.GET("/article/:id", api.GetArticle())
 	r.POST("/article/:id", api.UpdateArticle())
+	r.DELETE("/article/:id", api.DeleteArticle())
 	r.POST("/article/create", api.Create())
 }

@@ -75,3 +75,24 @@ func UpdateArticle() echo.HandlerFunc {
 		return c.JSON(fasthttp.StatusOK, article)
 	}
 }
+
+func DeleteArticle() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		dbs := c.Get("dbs").(*middlewares.DatabaseClient)
+		uid := GetUserIDFromToken(c)
+		user := new(models.User)
+		if dbs.DB.Table("users").Where(models.User{ID: uid}).First(&user).RecordNotFound() {
+			return echo.ErrNotFound
+		}
+
+		articleID, err := strconv.Atoi(c.Param("id"))
+		if err != nil {
+			return err
+		}
+
+		article := new(models.Article)
+		dbs.DB.Where("id = ?", articleID).Delete(&article)
+
+		return c.JSON(fasthttp.StatusOK, nil)
+	}
+}
